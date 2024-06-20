@@ -44,6 +44,6 @@ function initAction() {
 }
 
 // 使用 init 时
-program.command('create').description('创建项目').action(initAction)
+program.command('init').description('创建项目').action(initAction)
 
 program.parse(program.argv)
