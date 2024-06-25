@@ -7,6 +7,11 @@ import ora from 'ora'
 
 const program = new Command()
 
+const repos = {
+  'node-ts-template': 'github:zhsama/node-ts-template#main',
+  'node-typescript-boilerplate': 'github:jsynowiec/node-typescript-boilerplate#main',
+}
+
 function initAction() {
   inquirer
     .prompt([
@@ -19,12 +24,13 @@ function initAction() {
         type: 'list',
         message: '请选择项目模板',
         name: 'template',
-        choices: ['node-typescript-boilerplate'],
+        choices: ['node-ts-template', 'node-typescript-boilerplate'],
       },
     ])
     .then((res) => {
       const spinner = ora('download template......').start()
-      const repo = 'github:jsynowiec/node-typescript-boilerplate#main'
+      const repo = repos[res.template]
+      console.log(repo)
       const dest = res.name
       const options = { clone: true }
       const status = ora('download template......').start()
