@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+import * as path from 'node:path'
+import * as fs from 'node:fs'
+import * as process from 'node:process'
 import { Command } from 'commander'
 import inquirer from 'inquirer'
 import download from 'download-git-repo'
@@ -19,6 +22,14 @@ function initAction() {
         type: 'input',
         message: '请输入项目名称',
         name: 'name',
+        validate: (input) => {
+          const projectPath = path.join(process.cwd(), input)
+          if (fs.existsSync(projectPath)) {
+            console.log(chalk.red('\n当前目录下已存在同名文件夹，请输入其他项目名称。'))
+            return false
+          }
+          return true
+        },
       },
       {
         type: 'list',
@@ -30,7 +41,6 @@ function initAction() {
     .then((res) => {
       const spinner = ora('download template......').start()
       const repo = repos[res.template]
-      console.log(repo)
       const dest = res.name
       const options = { clone: true }
       const status = ora('download template......').start()
